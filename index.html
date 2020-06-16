@@ -70,7 +70,7 @@
 			</ul>
 		</nav>
     <nav>
-    总文章数 2
+    总文章数 4
     </nav>
 
 		<nav class="header-smart-menu">
@@ -160,6 +160,179 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-PHP-生成验证码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/16/PHP-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/">PHP 生成验证码【其实很简单只需三步】</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        <!--显示阅读次数完毕-->
+        
+        <a href="/2020/06/16/PHP-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/" class="archive-article-date">
+  	<time datetime="2020-06-16T03:40:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>什么是验证码？<br>    是一种区分用户是计算机还是人的公共全自动程序，主要防止非法软件进行破坏<br>实现思路：<br>    好比你在用电脑画画，你要先有画纸才能进行绘画<br>    第一步：<br>        设置画布大小和颜色<br>    第二步：<br>        绘制干扰元素和验证码信息<br>    第三部：<br>        在浏览器中加载画布<br>常用函数：</p>
+<blockquote>
+<p>imagecreatetruecolor — 新建一个真彩色图像画布<br>imagecolorallocate — 为一幅图像分配颜色<br>imagefill — 画布填充<br>imagesetpixel — 画一个单点像素<br>imageline — 画一条线段<br>imagettftext — 用 TrueType 字体向图像写入文本 [将验证码字符写入画布中]<br>header(‘Content-type: image/jpeg’); 浏览器加载类型<br>imagejpeg — 输出图象到浏览器或文件。<br>array_merge — 合并一个或多个数组<br>count — 计算数组中的单元数目或对象中的属性个数<br>rand — 产生一个随机整数</p>
+</blockquote>
+<p>字体样式连接【阿里图标库】：(<a href="https://www.iconfont.cn/" target="_blank" rel="noopener">https://www.iconfont.cn/</a>)</p>
+<p>代码实现 ：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//============== 设置画布大小和颜色=========</span></span><br><span class="line">   $width = <span class="number">200</span>;</span><br><span class="line">   $height = <span class="number">50</span>;</span><br><span class="line">   $image = imagecreatetruecolor($width,$height); <span class="comment">// 设置画布的大小</span></span><br><span class="line">   $bjColor = imagecolorallocate($image,<span class="number">255</span>,<span class="number">222</span>,<span class="number">173</span>);  <span class="comment">// 设置画布背景色</span></span><br><span class="line">   imagefill($image,<span class="number">0</span>,<span class="number">0</span>,$bjColor); <span class="comment">// 填充画布</span></span><br><span class="line">   <span class="comment">// ============设置干扰元素=============</span></span><br><span class="line">   <span class="comment">// 设置点干扰元素</span></span><br><span class="line">   <span class="keyword">for</span>($a = <span class="number">0</span>;$a &lt;<span class="number">100</span>;$a++)&#123;</span><br><span class="line">       $spotColor = imagecolorallocate($image,rand(<span class="number">0</span>,<span class="number">255</span>),rand(<span class="number">0</span>,<span class="number">255</span>),rand(<span class="number">0</span>,<span class="number">255</span>)); <span class="comment">// 设置点元素颜色</span></span><br><span class="line">       imagesetpixel($image,rand(<span class="number">0</span>,$width),rand(<span class="number">0</span>,$height),$spotColor);    <span class="comment">// 绘制点元素</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">// 设置线干扰元素</span></span><br><span class="line">   <span class="keyword">for</span>($a = <span class="number">0</span>;$a &lt; <span class="number">20</span>;$a++)&#123;</span><br><span class="line">       $lineColor = imagecolorallocate($image,rand(<span class="number">0</span>,<span class="number">255</span>),rand(<span class="number">0</span>,<span class="number">255</span>),rand(<span class="number">0</span>,<span class="number">255</span>));    <span class="comment">// 设置线元素颜色</span></span><br><span class="line">       imageline($image,rand(<span class="number">0</span>,$width),rand(<span class="number">0</span>,$height),rand(<span class="number">0</span>,$width),rand(<span class="number">0</span>,$height),$lineColor); <span class="comment">// 绘制线元素</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">// 设置验证码信息</span></span><br><span class="line">   $coder = <span class="string">''</span>;</span><br><span class="line">   $coderCount = <span class="number">4</span>; <span class="comment">// 验证码字符个数</span></span><br><span class="line">   $coderAll = array_merge(range(<span class="number">2</span>,<span class="number">9</span>),range(<span class="string">'a'</span>,<span class="string">'z'</span>),range(<span class="string">'A'</span>,<span class="string">'Z'</span>));  <span class="comment">// 生成验证字符码信息库</span></span><br><span class="line">   $key = count($coderAll)<span class="number">-1</span>;  <span class="comment">// 统计共有多少元素信息</span></span><br><span class="line">   <span class="keyword">for</span>($a=<span class="number">0</span>;$a&lt;$coderCount;$a++)&#123;</span><br><span class="line">       $coder .=$coderAll[rand(<span class="number">0</span>,$key)];  <span class="comment">// 随机选取$coderCount 个 字符</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">for</span>($a=<span class="number">0</span>;$a&lt;$coderCount;$a++)&#123;</span><br><span class="line">       $textColor = imagecolorallocate($image,rand(<span class="number">10</span>,<span class="number">50</span>),rand(<span class="number">10</span>,<span class="number">60</span>),rand(<span class="number">10</span>,<span class="number">60</span>));  <span class="comment">// 设置验证码字符颜色</span></span><br><span class="line">       imagettftext(  <span class="comment">// 绘制验证码字符</span></span><br><span class="line">           $image, <span class="comment">// 绘制位置</span></span><br><span class="line">           <span class="number">20</span>, <span class="comment">// 字体大小 </span></span><br><span class="line">           rand(<span class="number">10</span>,<span class="number">-10</span>), <span class="comment">// X 轴偏移角度</span></span><br><span class="line">           <span class="number">30</span>+<span class="number">40</span>*$a, <span class="comment">// 设置字符间隔</span></span><br><span class="line">           rand(<span class="number">25</span>,<span class="number">25</span>), <span class="comment">// Y 轴字体偏移角度</span></span><br><span class="line">           $textColor, <span class="comment">// 字体颜色</span></span><br><span class="line">           <span class="keyword">__DIR__</span>.<span class="string">'/./font/captcha.ttf'</span>,  <span class="comment">// 字体样式【要下载下来引用即可】</span></span><br><span class="line">           $coder[$a] <span class="comment">// 验证码字符</span></span><br><span class="line">       );</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">// =============生成验证码到浏览器===========</span></span><br><span class="line">   header(<span class="string">'Content-type: image/jpeg'</span>);  <span class="comment">// 浏览器传送格式</span></span><br><span class="line">   imagejpeg($image); <span class="comment">// 输出到浏览器</span></span><br></pre></td></tr></table></figure>
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180906/ba2294baa3304d8ea776b8b7538a7cea.jpeg" alt="图片"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/16/PHP-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-php-浏览历史记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/16/php-%E6%B5%8F%E8%A7%88%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95/">php 浏览历史记录【其实很简单两步就搞定】</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        <!--显示阅读次数完毕-->
+        
+        <a href="/2020/06/16/php-%E6%B5%8F%E8%A7%88%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2020-06-16T02:07:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>什么是 Cookie？<br>cookie 常用于识别用户。cookie 是服务器留在用户计算机中的小文件。每当相同的计算机通过浏览器请求页面时，它同时会发送 cookie。通过 PHP，您能够创建并取回 cookie 的值。<br>实现思路：<br>第一步：<br>    存入cookie/更新:【存入时先判断是否存在cookie，如果存在那就进行数据处理让新的值放在最前面更新cookie否则为存入cookie】<br>第二步：<br>    提出cookie中信息【判断是否存在cookie，存在的话用$_COOKIE 进行对value提出再进行数据处理将其转化为数组形式】</p>
+<p>常用函数：</p>
+<blockquote>
+<p>setcookie() — [setcookie(name, value, expire, path, domain);] 设置 cookie [value 为一串以 ，分隔的字符串]<br>$_COOKIE — 变量用于取回 cookie 的值 [超全局变量 大写]<br>explode — 使用一个字符串分割另一个字符串 [常用将字符串打撒组合为数组,新数组为索引型数组]</p>
+</blockquote>
+<pre><code><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$pizza  = <span class="string">"piece1 piece2 piece3 piece4 piece5 piece6"</span>;</span><br><span class="line">$pieces = explode(<span class="string">" "</span>, $pizza);</span><br><span class="line"><span class="keyword">echo</span> $pieces[<span class="number">0</span>]; <span class="comment">// piece1</span></span><br><span class="line"><span class="keyword">echo</span> $pieces[<span class="number">1</span>]; <span class="comment">// piece2</span></span><br></pre></td></tr></table></figure></code></pre><blockquote>
+<p>array_map — 将回调函数作用到给定数组的单元上<br>intval — 获取变量的整数值<br>array_unique – 移除数组中的重复元素<br>array_unshift — 在数组开头插入一个或多个单元<br>implode — 将一个一维数组的值转化为字符串 【作用和 explode 相反】<br>学习链接 (<a href="https://www.w3school.com.cn/php/php_cookies.asp" target="_blank" rel="noopener">https://www.w3school.com.cn/php/php_cookies.asp</a>)</p>
+</blockquote>
+<pre><code><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$array = <span class="keyword">array</span>(<span class="string">'lastname'</span>, <span class="string">'email'</span>, <span class="string">'phone'</span>);</span><br><span class="line">$comma_separated = implode(<span class="string">","</span>, $array);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $comma_separated; <span class="comment">// lastname,email,phone[一串字符]</span></span><br></pre></td></tr></table></figure>
+实现：
+例如： cookie name 为 id
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 存入 cookie</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_COOKIE[<span class="string">'id'</span>]))&#123;</span><br><span class="line">	$historyId = explode(<span class="string">','</span>,$_COOKIE[<span class="string">'id'</span>]); <span class="comment">// 将cookie中value值【字符串型】转为数组</span></span><br><span class="line">	$historyId = array_map(<span class="string">'intval'</span>,$historyId); <span class="comment">// 进行数据处理将ID转为整数型</span></span><br><span class="line">	array_unshift($historyId,$id); <span class="comment">// 将新ID插入到数组首位</span></span><br><span class="line">	$historyId = array_unique($historyId); <span class="comment">// 删除重复元素</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">		$historyId = [$id]; <span class="comment">// 直接存入到数组中</span></span><br><span class="line">	&#125;</span><br><span class="line">$historyId = implode(<span class="string">','</span>,$historyId); <span class="comment">// 将得到的存放历史ID的数组进行字符串处理</span></span><br><span class="line">setcookie(<span class="string">'id'</span>,$historyId); <span class="comment">// 存入 cookie 中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 提取 cookie 值</span></span><br><span class="line"></span><br><span class="line">   $historyData = []; <span class="comment">// 初始化历史记录信息为数组</span></span><br><span class="line">   <span class="keyword">if</span>(<span class="keyword">isset</span>($_COOKIE[<span class="string">'id'</span>]))&#123;</span><br><span class="line">       $historyData = explode(<span class="string">','</span>,$_COOKIE[<span class="string">'id'</span>]);  <span class="comment">// 将value字符串转为数组</span></span><br><span class="line">       $historyData = array_map(<span class="string">'intval'</span>,$historyData); <span class="comment">// 对数组值进行处理</span></span><br><span class="line">   &#125;</span><br><span class="line">   print_r($historyData); <span class="comment">// Array ( [0] =&gt; 10 [1] =&gt; 7 [2] =&gt; 1 [3] =&gt; 5 [4] =&gt; 8 [5] =&gt; 4 [6] =&gt; 6 [7] =&gt; 2 [8] =&gt; 9 [9] =&gt; 3 )</span></span><br></pre></td></tr></table></figure></code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/16/php-%E6%B5%8F%E8%A7%88%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-温故而知新" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -201,6 +374,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -270,6 +454,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">个人博客搭建</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -395,6 +590,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">个人博客搭建</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
