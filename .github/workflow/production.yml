@@ -1,5 +1,5 @@
 # action名称
-name: Publish and Release
+name: master分钟部署
 
 # 当代码合并到master分支的时候，执行下列脚本
 on:
