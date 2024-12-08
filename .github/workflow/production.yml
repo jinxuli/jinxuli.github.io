@@ -1,52 +1,27 @@
-# action名称
-name: master分钟部署
-
-# 当代码合并到master分支的时候，执行下列脚本
+name: CI Github Pages
 on:
+  #监听push操作
   push:
-    branches: [master]
-# 任务
+    branches:
+      - main # 这里只配置了main分支，所以只有推送main分支才会触发以下任务
 jobs:
-  publish-npm:
+  # 任务ID
+  build-and-deploy:
+    # 运行环境
     runs-on: ubuntu-latest
+    # 步骤
     steps:
-      - name: 检查master分支
-        uses: actions/checkout@master
+      # 官方action，将代码拉取到虚拟机
+      - name: Checkout  ️ 
+        uses: actions/checkout@v3
 
-      - name: 设置Node.js
-        uses: actions/setup-node@master
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/ # 如果不配置将影响publish
-
-      - name: 安装依赖
-        run: npm install
-
-      - name: 构建packages
-        run: npm run lib
-
-      - name: 发布NPM包
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Install and Build   # 安装依赖、打包，如果提前已打包好无需这一步
         run: |
-          npm publish
-      - name: publish 成功通知
-        run: echo npm 推送成功，请访问 https://jackysoft.github.io/rocket-render-doc
+          npm install
+          npm run build
 
-      - name: 读取当前版本号
-        id: version
-        uses: ashley-taylor/read-json-property-action@v1.0
+      - name: Deploy   # 部署
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          path: ./package.json
-          property: version
-
-      - name: 创建GitHub Release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{steps.version.outputs.value}}
-          release_name: v${{steps.version.outputs.value}}
-          draft: false
-          prerelease: false
+          branch: gh-pages # 部署后提交到那个分支
+          folder: dist # 这里填打包好的目录名称
