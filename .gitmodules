@@ -1,3 +1,3 @@
 [submodule "src/baseComponents"]
 	path = src/baseComponents
-	url = git@github.com:jinxuli/components.git
+	url = https://github.com/jinxuli/components.git
