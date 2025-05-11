@@ -1,5 +1,10 @@
 <template>
-    <x-flow></x-flow>
+  <div>
+    <Layout></Layout>
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+const a = ref("aaa");
+import Layout from "./layout/index.vue";
+</script>

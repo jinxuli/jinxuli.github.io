@@ -1,0 +1,9 @@
+build
+.github
+.husky
+.vscode
+build
+node_modules
+.prettierignore
+.prettierrc
+dist
